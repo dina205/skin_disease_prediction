@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Skin Cancer Detector</title>
+  <style>
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 20px;
+    }
+    .image {
+      width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="column">
+      <h2 class="a">Uploaded Image</h2>
+      <div class="green"><img id="uploaded-image" class="image" src=""></div>
+    </div>
+    <div class="column">
+      <h2 class="a">Grad-Cam Heatmap</h2>
+      <div class="blue"><img id="heatmap" class="image" src=""></div>
+    </div>
+  </div>
+
+  <script>
+    const uploadedImage = document.getElementById("uploaded-image");
+    const heatmap = document.getElementById("heatmap");
+
+    // Replace these with the URLs of your images
+    const uploadedImageUrl = "{{ url_for('upload_img', filename=file_name) }}";
+    const heatmapUrl = "{{ url_for('upload_img', filename=heatmap_file) }}";
+
+    uploadedImage.src = uploadedImageUrl;
+    heatmap.src = heatmapUrl;
+  </script>
+  <br><br>
+  <div class="float-table">
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Confidence</th>
+      </tr>
+      {% for i, j in result %}
+        <tr>
+          <td>{{ i.title() }}</td>
+          <td>{{ j }}%</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+</body>
+</html>
